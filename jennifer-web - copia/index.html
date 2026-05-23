@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jennifer Arlia | Health Coach</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top left, #f4eaff 0%, #ffffff 35%, #f8f5ff 100%);
+      color: #1f1f2e;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      z-index: 5000;
+      background: linear-gradient(90deg, #7c4dff, #d291ff);
+      box-shadow: 0 0 25px rgba(124,77,255,0.5);
+    }
+
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .glow-one {
+      width: 420px;
+      height: 420px;
+      background: #c77dff;
+      top: -120px;
+      left: -120px;
+    }
+
+    .glow-two {
+      width: 380px;
+      height: 380px;
+      background: #7c4dff;
+      right: -100px;
+      top: 35%;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 8%;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(18px);
+      transition: all 0.4s ease;
+      border-bottom: 1px solid rgba(155, 108, 255, 0.12);
+    }
+
+    .navbar.scrolled {
+      padding: 12px 8%;
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 18px 50px rgba(124,77,255,0.08);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #6d3bd8;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 0.95rem;
+      color: #4a465c;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(124,77,255,0.16);
+      background: rgba(255,255,255,0.58);
+      color: #6d3bd8;
+      font-size: 1.35rem;
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      color: #7c4dff;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 60px;
+      padding: 120px 8% 80px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: rgba(124, 77, 255, 0.1);
+      border: 1px solid rgba(124, 77, 255, 0.18);
+      color: #6d3bd8;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 6.4rem);
+      line-height: 0.95;
+      letter-spacing: -4px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      background: linear-gradient(135deg, #7c4dff, #b968ff, #d291ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #7c4dff, #b968ff, #d291ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.22rem;
+      line-height: 1.7;
+      color: #5d5870;
+      max-width: 620px;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: all 0.35s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #7c4dff, #b968ff);
+      color: white;
+      box-shadow: 0 18px 45px rgba(124, 77, 255, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 60px rgba(124, 77, 255, 0.36);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.72);
+      color: #6d3bd8;
+      border: 1px solid rgba(124, 77, 255, 0.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 22px;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 30px 80px rgba(124, 77, 255, 0.18);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .hero-image {
+      min-height: 520px;
+      border-radius: 32px;
+      background: linear-gradient(160deg, rgba(124,77,255,0.15), rgba(255,255,255,0.85)),
+                  url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .floating-note {
+      position: absolute;
+      bottom: 32px;
+      left: -30px;
+      max-width: 260px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.85);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 20px 50px rgba(60, 40, 120, 0.14);
+    }
+
+    .floating-note strong {
+      color: #6d3bd8;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -120px;
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(180deg, transparent, rgba(248,245,255,0.95));
+      pointer-events: none;
+    }
+
+    section {
+      padding: 95px 8%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      position: relative;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      border-radius: 999px;
+      margin: 18px auto 0;
+      background: linear-gradient(90deg, #7c4dff, #d291ff);
+    }
+
+    .section-title p {
+      color: #6f6a82;
+      font-size: 1.12rem;
+      max-width: 680px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .about-section {
+      padding-top: 100px;
+    }
+
+    .immersive-story-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .immersive-story-section::before {
+      content: "";
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(199,125,255,0.18), transparent 70%);
+      top: -250px;
+      right: -220px;
+      pointer-events: none;
+    }
+
+    .immersive-intro {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .immersive-intro h2 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: -4px;
+      line-height: 0.95;
+      margin-top: 18px;
+    }
+
+    .immersive-story-container {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .story-text-panel {
+      position: relative;
+    }
+
+    .story-sticky {
+      position: sticky;
+      top: 120px;
+      padding: 40px;
+      border-radius: 40px;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 30px 90px rgba(124,77,255,0.12);
+    }
+
+    .story-small {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #7c4dff;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .story-sticky h3 {
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 0.9;
+      letter-spacing: -4px;
+      margin-bottom: 24px;
+      transition: 0.4s ease;
+      background: linear-gradient(135deg, #7c4dff, #c77dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .story-sticky p {
+      font-size: 1.16rem;
+      line-height: 1.9;
+      color: #625d74;
+      transition: 0.4s ease;
+    }
+
+    .story-visual-panel {
+      display: grid;
+      gap: 36px;
+    }
+
+    .immersive-card {
+      position: relative;
+      height: 88vh;
+      min-height: 650px;
+      overflow: hidden;
+      border-radius: 46px;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 35px 100px rgba(124,77,255,0.18);
+      transform: scale(0.96);
+      opacity: 0.7;
+      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .immersive-card.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .immersive-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.4s ease;
+    }
+
+    .immersive-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .immersive-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 35%, rgba(20, 12, 40, 0.45));
+    }
+
+    .card-overlay {
+      position: absolute;
+      left: 34px;
+      bottom: 34px;
+      z-index: 2;
+      color: white;
+    }
+
+    .card-overlay span {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      opacity: 0.8;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .card-overlay strong {
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(124, 77, 255, 0.12);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 45px rgba(60, 40, 120, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124,77,255,0.08), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 70px rgba(124, 77, 255, 0.16);
+    }
+
+    .icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+      color: #2b2540;
+    }
+
+    .card p {
+      color: #6f6a82;
+      line-height: 1.7;
+    }
+
+    .program {
+      background: linear-gradient(135deg, rgba(124,77,255,0.1), rgba(255,255,255,0.8));
+      border-radius: 44px;
+      padding: 54px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 42px;
+      align-items: center;
+      border: 1px solid rgba(124, 77, 255, 0.16);
+      box-shadow: 0 30px 80px rgba(124, 77, 255, 0.12);
+    }
+
+    .program h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .program p {
+      color: #625d74;
+      line-height: 1.8;
+      font-size: 1.08rem;
+      margin-bottom: 24px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 14px;
+    }
+
+    .check {
+      padding: 15px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(124,77,255,0.12);
+      color: #4f4766;
+      font-weight: 600;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product {
+      text-align: center;
+      padding: 28px 18px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(124,77,255,0.12);
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      transform: scale(1.04);
+    }
+
+    .product .emoji {
+      font-size: 2.4rem;
+      margin-bottom: 14px;
+    }
+
+    .testimonial {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      padding: 48px;
+      border-radius: 38px;
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(124,77,255,0.14);
+      box-shadow: 0 25px 70px rgba(124,77,255,0.12);
+    }
+
+    .testimonial p {
+      font-size: 1.4rem;
+      line-height: 1.7;
+      color: #4f4766;
+      margin-bottom: 18px;
+    }
+
+    .cta {
+      text-align: center;
+      border-radius: 48px;
+      background: linear-gradient(135deg, #7c4dff, #c77dff);
+      color: white;
+      padding: 80px 30px;
+      box-shadow: 0 30px 90px rgba(124,77,255,0.3);
+    }
+
+    .cta h2 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+    }
+
+    .cta p {
+      max-width: 680px;
+      margin: 0 auto 30px;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      opacity: 0.92;
+    }
+
+    .cta .btn-primary {
+      background: white;
+      color: #6d3bd8;
+      display: inline-block;
+      box-shadow: none;
+    }
+
+    .floating-whatsapp {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #7c4dff, #c77dff);
+      color: white;
+      font-size: 1.7rem;
+      z-index: 3000;
+      box-shadow: 0 24px 60px rgba(124,77,255,0.35);
+      transition: all 0.35s ease;
+    }
+
+    .floating-whatsapp:hover {
+      transform: translateY(-8px) scale(1.06);
+    }
+
+    footer {
+      padding: 40px 8%;
+      text-align: center;
+      color: #7a748c;
+      font-size: 0.95rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 950px) {
+      .hero,
+      .program,
+      .immersive-story-container {
+        grid-template-columns: 1fr;
+      }
+
+      .story-sticky {
+        position: relative;
+        top: 0;
+      }
+
+      .immersive-card {
+        min-height: 520px;
+        height: 70vh;
+      }
+
+      .cards,
+      .products-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mobile-menu-btn {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 74px;
+        left: 5%;
+        right: 5%;
+        display: grid;
+        gap: 6px;
+        padding: 16px;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.82);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(124,77,255,0.14);
+        box-shadow: 0 24px 70px rgba(124,77,255,0.16);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .nav-links.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(124,77,255,0.05);
+      }
+
+      .floating-note {
+        left: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 12px 5%;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 105px 5% 55px;
+        gap: 34px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.55rem, 13vw, 4rem);
+        letter-spacing: -2px;
+        line-height: 0.98;
+      }
+
+      .hero p {
+        font-size: 1.02rem;
+        line-height: 1.65;
+      }
+
+      .hero-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        text-align: center;
+        width: 100%;
+      }
+
+      .hero-card {
+        padding: 12px;
+        border-radius: 28px;
+      }
+
+      .hero-image {
+        min-height: 360px;
+        border-radius: 22px;
+      }
+
+      .floating-note {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        max-width: 100%;
+        margin-top: 12px;
+        border-radius: 20px;
+      }
+
+      section {
+        padding: 64px 5%;
+      }
+
+      .section-title {
+        margin-bottom: 38px;
+      }
+
+      .section-title h2 {
+        font-size: clamp(2rem, 10vw, 3rem);
+        letter-spacing: -1.5px;
+      }
+
+      .cards,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .glass-panel,
+      .story-sticky,
+      .testimonial {
+        padding: 24px;
+        border-radius: 26px;
+      }
+
+      .immersive-intro {
+        margin-bottom: 36px;
+      }
+
+      .immersive-intro h2 {
+        font-size: clamp(2.4rem, 13vw, 4rem);
+        letter-spacing: -2.5px;
+      }
+
+      .story-sticky h3 {
+        font-size: clamp(2.7rem, 14vw, 4rem);
+        letter-spacing: -2.5px;
+      }
+
+      .story-sticky p {
+        font-size: 1rem;
+        line-height: 1.75;
+      }
+
+      .story-visual-panel {
+        gap: 22px;
+      }
+
+      .immersive-card {
+        height: 78vh;
+        min-height: 460px;
+        border-radius: 30px;
+      }
+
+      .card-overlay {
+        left: 22px;
+        bottom: 22px;
+      }
+
+      .card-overlay strong {
+        font-size: 2.2rem;
+      }
+
+      .program {
+        padding: 28px;
+        border-radius: 30px;
+      }
+
+      .program h2 {
+        font-size: 2.35rem;
+        letter-spacing: -1.5px;
+      }
+
+      .cta {
+        border-radius: 32px;
+        padding: 54px 22px;
+      }
+
+      .cta h2 {
+        font-size: 2.35rem;
+        letter-spacing: -1.5px;
+      }
+
+      .floating-whatsapp {
+        width: 58px;
+        height: 58px;
+        right: 16px;
+        bottom: 16px;
+        font-size: 1.4rem;
+      }
+    }
+
+      .cards,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .program {
+        padding: 32px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="#inicio" class="logo">Jennifer Arlia</a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#sobre">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#programa">Programa</a>
+      <a href="#productos">Productos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <div class="ambient-glow glow-one"></div>
+  <div class="ambient-glow glow-two"></div>
+
+  <section class="hero" id="inicio">
+    <div class="reveal">
+      <div class="badge">✨ Health Coach & Bienestar Natural</div>
+      <h1>Transforma tu salud con <span>equilibrio real</span>.</h1>
+      <p>
+        Acompañamiento personalizado para ayudarte a mejorar tus hábitos, energía,
+        alimentación y bienestar, combinando orientación práctica con productos naturales seleccionados.
+      </p>
+      <div class="hero-buttons">
+        <a href="#contacto" class="btn-primary">Agendar consulta</a>
+        <a href="#programa" class="btn-secondary">Ver programa</a>
+      </div>
+    </div>
+
+    <div class="hero-card reveal">
+      <div class="hero-image"></div>
+      <div class="floating-note">
+        <strong>Bienestar personalizado</strong>
+        Planes simples, humanos y sostenibles para tu estilo de vida.
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="about-section immersive-story-section">
+    <div class="immersive-intro reveal">
+      <span class="mini-label">Jennifer Arlia Wellness Story</span>
+      <h2>Una experiencia de bienestar.</h2>
+    </div>
+
+    <div class="immersive-story-container">
+      <div class="story-text-panel">
+        <div class="story-sticky">
+          <span class="story-small">Health • Balance • Purpose</span>
+          <h3 id="immersiveTitle">Balance.</h3>
+          <p id="immersiveText">
+            Descubrir que el bienestar comienza con pequeños hábitos diarios cambió completamente mi forma de vivir.
+          </p>
+        </div>
+      </div>
+
+      <div class="story-visual-panel">
+        <div class="immersive-card active" data-title="Balance." data-text="Descubrir que el bienestar comienza con pequeños hábitos diarios cambió completamente mi forma de vivir.">
+          <img src="jennifer-balance.jpg" alt="Balance lifestyle" />
+          <div class="card-overlay">
+            <span>01</span>
+            <strong>Balance</strong>
+          </div>
+        </div>
+
+        <div class="immersive-card" data-title="Transformation." data-text="Aprendí que la verdadera transformación ocurre cuando conectamos salud física, mental y emocional de manera sostenible.">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1400&q=80" alt="Transformation" />
+          <div class="card-overlay">
+            <span>02</span>
+            <strong>Transformation</strong>
+          </div>
+        </div>
+
+        <div class="immersive-card" data-title="Purpose." data-text="Hoy mi propósito es acompañar a otras personas a sentirse mejor, recuperar energía y construir hábitos saludables reales.">
+          <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=1400&q=80" alt="Purpose" />
+          <div class="card-overlay">
+            <span>03</span>
+            <strong>Purpose</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios">
+    <div class="section-title reveal">
+      <h2>Servicios</h2>
+      <p>Un enfoque integral para mejorar tu salud desde hábitos, alimentación y bienestar emocional.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card reveal">
+        <div class="icon">🥗</div>
+        <h3>Consulta personalizada</h3>
+        <p>Evaluación inicial, hábitos actuales, objetivos y guía práctica para comenzar tu cambio.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">📋</div>
+        <h3>Plan de hábitos</h3>
+        <p>Rutinas simples de alimentación, hidratación, descanso y movimiento adaptadas a ti.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon">🌿</div>
+        <h3>Productos naturales</h3>
+        <p>Recomendaciones de productos naturales según tus necesidades y objetivos personales.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="programa">
+    <div class="program reveal">
+      <div>
+        <h2>Programa Health Reset</h2>
+        <p>
+          Un programa diseñado para personas que desean mejorar su energía, digestión,
+          hábitos alimenticios y bienestar general con pasos claros y seguimiento.
+        </p>
+        <a href="#contacto" class="btn-primary">Quiero empezar</a>
+      </div>
+      <div class="checklist">
+        <div class="check">✅ Consulta inicial personalizada</div>
+        <div class="check">✅ Guía PDF de bienestar</div>
+        <div class="check">✅ Recomendaciones de productos naturales</div>
+        <div class="check">✅ Seguimiento por WhatsApp</div>
+        <div class="check">✅ Plantillas para control de progreso</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="productos">
+    <div class="section-title reveal">
+      <h2>Bienestar natural</h2>
+      <p>Productos seleccionados para acompañar tu proceso de salud y estilo de vida.</p>
+    </div>
+
+    <div class="products-grid">
+      <div class="product reveal">
+        <div class="emoji">🌱</div>
+        <h3>Suplementos</h3>
+      </div>
+      <div class="product reveal">
+        <div class="emoji">🍵</div>
+        <h3>Infusiones</h3>
+      </div>
+      <div class="product reveal">
+        <div class="emoji">💧</div>
+        <h3>Detox</h3>
+      </div>
+      <div class="product reveal">
+        <div class="emoji">✨</div>
+        <h3>Cuidado personal</h3>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="testimonial reveal">
+      <p>
+        “La salud no se trata de hacerlo perfecto, se trata de construir hábitos reales que puedas mantener.”
+      </p>
+      <strong>— Jennifer Arlia</strong>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="cta reveal">
+      <h2>Comienza tu transformación</h2>
+      <p>
+        Agenda una consulta y descubre cómo crear un plan simple, natural y sostenible para tu bienestar.
+      </p>
+      <a href="https://wa.me/584122535582" class="btn-primary" target="_blank">Contactar por WhatsApp</a>
+    </div>
+  </section>
+
+  <a href="https://wa.me/584122535582" class="floating-whatsapp" target="_blank">✦</a>
+
+  <footer>
+    <p>&copy; 2026 Jennifer Arlia Health Coach. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      mobileMenuBtn.textContent = navLinks.classList.contains('open') ? '×' : '☰';
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        mobileMenuBtn.textContent = '☰';
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercent = (scrollTop / scrollHeight) * 100;
+      scrollProgress.style.width = scrollPercent + '%';
+    });
+
+    const immersiveCards = document.querySelectorAll('.immersive-card');
+    const immersiveTitle = document.getElementById('immersiveTitle');
+    const immersiveText = document.getElementById('immersiveText');
+
+    function updateImmersiveStory() {
+      immersiveCards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const middle = window.innerHeight / 2;
+
+        if (rect.top < middle && rect.bottom > middle) {
+          immersiveCards.forEach((c) => c.classList.remove('active'));
+          card.classList.add('active');
+
+          immersiveTitle.textContent = card.dataset.title;
+          immersiveText.textContent = card.dataset.text;
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateImmersiveStory);
+    updateImmersiveStory();
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    function revealOnScroll() {
+      for (let i = 0; i < reveals.length; i++) {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveals[i].getBoundingClientRect().top;
+        const elementVisible = 120;
+
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add('active');
+        }
+      }
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+  </script>
+</body>
+</html>
